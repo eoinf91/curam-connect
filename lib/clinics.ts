@@ -19,7 +19,7 @@ export const CLINICS: Clinic[] = [
     address: "12 Botanic Road",
     town: "Glasnevin, Dublin 9",
     county: "Dublin",
-    eircode: "D09 X3F2",
+    eircode: "F23 PK79",
     phone: "+353 1 837 4521",
     email: "info@glasnevinmedical.ie",
     acceptingPatients: "unknown",
