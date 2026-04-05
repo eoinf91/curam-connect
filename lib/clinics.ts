@@ -204,3 +204,31 @@ export function getClinicsNearLocation(
     .filter((c) => c.distanceKm <= radiusKm)
     .sort((a, b) => a.distanceKm - b.distanceKm)
 }
+
+/**
+ * Geocode an address using the backend API
+ * Returns latitude, longitude, and formatted address
+ */
+export async function geocodeAddress(
+  address: string
+): Promise<{ lat: number; lng: number; formattedAddress: string } | null> {
+  try {
+    const response = await fetch("/api/geocode", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ address }),
+    })
+
+    if (!response.ok) return null
+
+    const data = await response.json()
+    return {
+      lat: data.lat,
+      lng: data.lng,
+      formattedAddress: data.formattedAddress,
+    }
+  } catch (error) {
+    console.error("[v0] Geocoding error:", error)
+    return null
+  }
+}

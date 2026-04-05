@@ -49,21 +49,49 @@ export function Header({ onResults, onLoading }: HeaderProps) {
       return
     }
 
-    const location = getLocationFromEircode(cleaned)
-    if (!location) {
-      setInputState("invalid")
-      setErrorMessage("We couldn't recognise that Eircode routing key. Please try again.")
-      return
-    }
-
     setIsSearching(true)
     onLoading(true)
-    // Simulate brief async lookup
-    await new Promise((r) => setTimeout(r, 600))
-    const results = getClinicsNearLocation(location.lat, location.lng)
-    onResults(results, location.name)
-    setIsSearching(false)
-    onLoading(false)
+    setErrorMessage("")
+
+    try {
+      // Try Google Maps Geocoding API first
+      const response = await fetch("/api/geocode", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eircode: cleaned }),
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        const results = getClinicsNearLocation(data.lat, data.lng)
+        onResults(results, data.formattedAddress)
+      } else {
+        // Fall back to client-side Eircode lookup
+        const location = getLocationFromEircode(cleaned)
+        if (!location) {
+          setInputState("invalid")
+          setErrorMessage("We couldn't recognise that Eircode routing key. Please try again.")
+          setIsSearching(false)
+          onLoading(false)
+          return
+        }
+        const results = getClinicsNearLocation(location.lat, location.lng)
+        onResults(results, location.name)
+      }
+    } catch (error) {
+      console.error("[v0] Search error:", error)
+      // Silent fallback to client-side lookup
+      const location = getLocationFromEircode(cleaned)
+      if (location) {
+        const results = getClinicsNearLocation(location.lat, location.lng)
+        onResults(results, location.name)
+      } else {
+        setErrorMessage("Search failed. Please try again.")
+      }
+    } finally {
+      setIsSearching(false)
+      onLoading(false)
+    }
   }
 
   async function handleUseLocation() {
