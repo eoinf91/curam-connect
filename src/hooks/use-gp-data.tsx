@@ -50,7 +50,7 @@ export function useGPData() {
                 distance: distance,
                 phone: props.Telephone,
                 formattedName: props.ServiceName
-                    ? props.ServiceName.toLowerCase().replace(/\b\w/g, (l) => l.toUpperCase())
+                    ? props.ServiceName.toLowerCase().replace(/\b\w/g, (l: string) => l.toUpperCase())
                     : "Unknown Clinic"
             };
         }).filter(gp => gp.distance <= 15);
