@@ -30,8 +30,8 @@ export default function Home() {
       {userLocation ?(
         <>
 
-          <div className="p-8">
-          <div className="max-w-6xl mx-auto text-slate-400">
+          <div className="p-8 w-full">
+          <div className="w-full max-w-6xl mx-auto text-slate-400">
             <h2 className="text-md font-bold uppercase text-sky-800/70 tracking-loose mb-4">
               There are {nearestGPs.length} clinics near <span >{searchedLabel}</span>
             </h2>

@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge"
 import { MapPin } from "lucide-react";
 
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Drawer, DrawerContent, DrawerTrigger, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 
 interface ClinicCardProps {
     data: {
@@ -22,7 +22,7 @@ interface ClinicCardProps {
 // Drawer & Sheet `brain`
 function ClinicDetailsTrigger({ data }: {data: any}) {
     const DetailView = () => (
-        <div className="space-y-6 p-12">
+        <div className="lg:space-y-6 lg:p-12">
             <div className="flex flex-col justify-between h-full">
                 <div className="flex justify-between items-baseline">
                     <div className="w-60">
@@ -65,6 +65,10 @@ function ClinicDetailsTrigger({ data }: {data: any}) {
                         </Button>
                     </DrawerTrigger>
                     <DrawerContent>
+                        <DrawerHeader>
+                            <DrawerTitle className="sr-only">Clinic Details</DrawerTitle>
+                            <DrawerDescription className="sr-only">Detailed information about this GP clinic</DrawerDescription>
+                        </DrawerHeader>
                         <DetailView />
                     </DrawerContent>
                 </Drawer>
@@ -79,6 +83,10 @@ function ClinicDetailsTrigger({ data }: {data: any}) {
                         </Button>
                     )} />
                     <SheetContent>
+                        <SheetHeader>
+                            <SheetTitle className="sr-only">Clinic Details</SheetTitle>
+                            <SheetDescription className="sr-only">Detailed information about this GP clinic</SheetDescription>
+                        </SheetHeader>
                         <DetailView />
                     </SheetContent>
                 </Sheet>
@@ -103,8 +111,8 @@ export default function ClinicCard({ data }: ClinicCardProps) {
     const distanceLabel = getDistanceLabel(data.distance);
 
     return (
-        <div className="p-4 bg-white border border-sky-200 rounded-lg">
-            <div className="flex flex-col justify-between h-full">
+        <div className="w-full p-4 bg-white border border-sky-200 rounded-lg">
+            <div className="flex flex-col justify-between lg:h-full">
                 <div className="flex justify-between items-baseline">
                     <div className="w-60">
                         <h3 className="font-bold text-sky-800 text-lg mb-0">
