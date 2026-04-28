@@ -7,7 +7,7 @@ export function ClinicDrawerWrapper({ children, data } : { children: React.React
             {/* Mobile Version */}
             <div className="sm:hidden w-full">
                 <Drawer>
-                    <DrawerTrigger render={children}>
+                    <DrawerTrigger>
                         { children }
                     </DrawerTrigger>
                     <DrawerContent>
@@ -19,7 +19,7 @@ export function ClinicDrawerWrapper({ children, data } : { children: React.React
             {/* Desktop Version */}
             <div className="hidden sm:block w-full">
                 <Sheet>
-                    <SheetTrigger render={children}>
+                    <SheetTrigger>
                         { children }
                     </SheetTrigger>
                     <SheetContent>

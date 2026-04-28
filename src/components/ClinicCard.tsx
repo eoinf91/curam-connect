@@ -114,7 +114,7 @@ export default function ClinicCard({ data }: ClinicCardProps) {
         <div className="w-full p-4 bg-white border border-sky-200 rounded-lg">
             <div className="flex flex-col justify-between lg:h-full">
                 <div className="flex justify-between items-baseline">
-                    <div className="w-60">
+                    <div className="flex-1 min-w-0 pr-2">
                         <h3 className="font-bold text-sky-800 text-lg mb-0">
                             {data.formattedName}
                         </h3>

@@ -30,13 +30,13 @@ export default function Home() {
       {userLocation ?(
         <>
 
-          <div className="p-8 w-full">
+          <div className="p-4 sm:p-8 w-full">
           <div className="w-full max-w-6xl mx-auto text-slate-400">
             <h2 className="text-md font-bold uppercase text-sky-800/70 tracking-loose mb-4">
               There are {nearestGPs.length} clinics near <span >{searchedLabel}</span>
             </h2>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="w-full grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {nearestGPs.length === 0 ? (
                 <p className="text-slate-500">No clinics found within 15km of your location</p>
               ) : (
