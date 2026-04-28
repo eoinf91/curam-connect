@@ -91,6 +91,9 @@ export default function ClinicCard({ data }: ClinicCardProps) {
 
     // Distance to 1 decimal place
     const getDistanceLabel = (km: number | undefined) => {
+        if(km === undefined || km === null || isNaN(km)) {
+            return null;
+        }
         if(km < 1) {
             return `${Math.round(km * 1000)}m`;
         }
