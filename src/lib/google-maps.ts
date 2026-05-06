@@ -19,4 +19,18 @@ export async function getCoordsFromEircode(eircode: string) {
     } catch (error) {
         console.log("Error fetching coordinates:", error);
     }
-}
+};
+
+export function getStaticMapUrl(lat: number, lng: number): string {
+  const baseUrl = "https://maps.googleapis.com/maps/api/staticmap";
+
+  const params = new URLSearchParams({
+    center: `${lat},${lng}`,
+    zoom: "15",
+    size: "600x300",
+    markers: `color:blue|${lat},${lng}`,
+    key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
+  });
+
+  return `${baseUrl}?${params.toString()}`;
+};

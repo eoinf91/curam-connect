@@ -2,7 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge"
-import { MapPin } from "lucide-react";
+import { MapPin, Phone } from "lucide-react";
+import { getStaticMapUrl } from "@/lib/google-maps";
+import Image from "next/image";
 
 import { Drawer, DrawerContent, DrawerTrigger, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
@@ -22,34 +24,52 @@ interface ClinicCardProps {
 // Drawer & Sheet `brain`
 function ClinicDetailsTrigger({ data }: {data: any}) {
     const DetailView = () => (
-        <div className="lg:space-y-6 lg:p-12">
-            <div className="flex flex-col justify-between h-full">
-                <div className="flex justify-between items-baseline">
-                    <div className="w-60">
-                        <h3 className="font-bold text-slate-900 text-lg mb-0">
-                            {data.formattedName}
-                        </h3>
-                        <p className="text-slate-600 text-sm">
-                            {data.address}, {data.town}, {data.county}, {data.eircode}
-                        </p>
+        <div className="">
+            <div className="w-full h-[250px] overflow-hidden relative rounded-xl sm:rounded-none mt-4 sm:mt-0 mb-2 sm:mb-0">
+                <Image
+                    src={getStaticMapUrl(data.lat, data.lng)}
+                    alt={data.formattedName}
+                    fill
+                    className="absolute w-full h-full overflow-hidden object-cover"
+                />
+            </div>
+            <div className="flex flex-col justify-between mx-3 sm:mx-0 lg:space-y-6 lg:p-6">
+                <div className="flex flex-col gap-0">
+                    <div className="flex justify-between items-baseline">
+                        <div className="w-60">
+                            <h3 className="font-bold text-slate-900 text-lg mb-0">
+                                {data.formattedName}
+                            </h3>
+                            <p className="text-sky-900/70 text-sm">
+                                { data.address ? `${data.address}, ` : null }
+                                { data.town ? `${data.town}, ` : null }
+                                { data.county ? `${data.county}, ` : null }
+                                { data.eircode ? `${data.eircode} ` : null }
+                            </p>
+                        </div>
+                        <Badge variant="secondary"><MapPin strokeWidth={2} className="w-[24px]" />0.8km</Badge>
                     </div>
-                    <Badge variant="secondary"><MapPin strokeWidth={2} className="w-[24px]" />0.8km</Badge>
+                    <div className="my-4">
+                        <h5 className="text-sm text-slate-600 font-bold mb-0">
+                            Accepting patients
+                        </h5>
+                        <div className="flex gap-2 items-center">
+                            <div className="bg-orange-500 rounded-lg w-[6px] h-[6px]" />
+                            <p className="text-slate-600 text-sm">Medical card holders: </p>
+                            <p className="text-slate-600 text-sm">Unknown</p>
+                        </div>
+                        <div className="flex gap-2 items-center">
+                            <div className="bg-orange-500 rounded-lg w-[6px] h-[6px]" />
+                            <p className="text-slate-600 text-sm">Private patients: </p>
+                            <p className="text-slate-600 text-sm">Unknown</p>
+                        </div>
+                    </div>
                 </div>
-                <div className="my-4">
-                    <h5 className="text-sm text-slate-600 font-bold mb-1">
-                        Accepting patients
-                    </h5>
-                    <div className="flex gap-2 items-center">
-                        <div className="bg-red-500 rounded-lg w-[6px] h-[6px]" />
-                        <p className="text-slate-600 text-sm">Medical card holders: </p>
-                        <p className="text-slate-600 text-sm">No</p>
-                    </div>
-                    <div className="flex gap-2 items-center">
-                        <div className="bg-green-500 rounded-lg w-[6px] h-[6px]" />
-                        <p className="text-slate-600 text-sm">Private patients: </p>
-                        <p className="text-slate-600 text-sm">Yes</p>
-                    </div>
-                </div>
+                <a href={`tel:${data.phone}`} className="bg-cta text-center w-full w-full py-3 px-8 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-full cursor-pointer transition-all hover:shadow-lg active:scale-95 flex gap-4 justify-center items-center">
+                    <Phone strokeWidth={2} className="w-[16px]" />
+                    <span className="sm:hidden text-sm font-bold">Call clinic</span>
+                    <span className="hidden sm:block text-sm font-bold">{data.phone}</span>
+                </a>
             </div>
         </div>
     );
@@ -65,7 +85,7 @@ function ClinicDetailsTrigger({ data }: {data: any}) {
                         </Button>
                     </DrawerTrigger>
                     <DrawerContent>
-                        <DrawerHeader>
+                        <DrawerHeader className="absolute top-0">
                             <DrawerTitle className="sr-only">Clinic Details</DrawerTitle>
                             <DrawerDescription className="sr-only">Detailed information about this GP clinic</DrawerDescription>
                         </DrawerHeader>
@@ -82,8 +102,8 @@ function ClinicDetailsTrigger({ data }: {data: any}) {
                             View details
                         </Button>
                     )} />
-                    <SheetContent>
-                        <SheetHeader>
+                    <SheetContent className="rounded-2xl overflow-hidden m-2 box-border max-h-[98vh]">
+                        <SheetHeader className="absolute top-0">
                             <SheetTitle className="sr-only">Clinic Details</SheetTitle>
                             <SheetDescription className="sr-only">Detailed information about this GP clinic</SheetDescription>
                         </SheetHeader>
@@ -119,7 +139,10 @@ export default function ClinicCard({ data }: ClinicCardProps) {
                             {data.formattedName}
                         </h3>
                         <p className="text-sky-900/70 text-sm">
-                            {data.address}, {data.town}, {data.county}, {data.eircode}
+                            { data.address ? `${data.address}, ` : null }
+                            { data.town ? `${data.town}, ` : null }
+                            { data.county ? `${data.county}, ` : null }
+                            { data.eircode ? `${data.eircode} ` : null }
                         </p>
                     </div>
                     {/* Distance badge */}
@@ -135,14 +158,14 @@ export default function ClinicCard({ data }: ClinicCardProps) {
                         Accepting patients
                     </h5>
                     <div className="flex gap-2 items-center">
-                        <div className="bg-red-500 rounded-lg w-[6px] h-[6px]" />
+                        <div className="bg-orange-500 rounded-lg w-[6px] h-[6px]" />
                         <p className="text-sky-900/70 text-sm">Medical card holders: </p>
-                        <p className="text-sky-900/70 text-sm">No</p>
+                        <p className="text-sky-900/70 text-sm">Unknown</p>
                     </div>
                     <div className="flex gap-2 items-center">
-                        <div className="bg-green-500 rounded-lg w-[6px] h-[6px]" />
+                        <div className="bg-orange-500 rounded-lg w-[6px] h-[6px]" />
                         <p className="text-sky-900/70 text-sm">Private patients: </p>
-                        <p className="text-sky-900/70 text-sm">Yes</p>
+                        <p className="text-sky-900/70 text-sm">Unknown</p>
                     </div>
                 </div>
                 <ClinicDetailsTrigger data={data} />

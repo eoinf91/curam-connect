@@ -49,6 +49,8 @@ export function useGPData() {
                 eircode: props.Eircode,
                 distance: distance,
                 phone: props.Telephone,
+                lat: gpLat,
+                lng: gpLng,
                 formattedName: props.ServiceName
                     ? props.ServiceName.toLowerCase().replace(/\b\w/g, (l: string) => l.toUpperCase())
                     : "Unknown Clinic"
